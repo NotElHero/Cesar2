@@ -16,15 +16,17 @@ import android.widget.TextView;
 import java.lang.reflect.Array;
 
 public class MainActivity extends AppCompatActivity {
+
     private static final char START_MINUS = 'a';
     private static final char END_MINUS = 'z';
     private static final char START_MAYUS = 'A';
     private static final char END_MAYUS = 'Z';
-    private static final int CAESAR_KEY = 2;
+    public int CAESAR_KEY = 2;
 
     public int charCase = 0;
     public String writting = "";
     public String ciphred = "";
+    Spinner optionSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +44,11 @@ public class MainActivity extends AppCompatActivity {
         keyboardLayout.removeAllViews();
 
         //Layout config
-        LinearLayout.LayoutParams keyboardRowParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-        LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT,1);
+        LinearLayout.LayoutParams keyboardRowParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+        LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                1);
         LinearLayout keyboardRow = null;
 
         //Add character buttons
@@ -76,11 +81,6 @@ public class MainActivity extends AppCompatActivity {
         mayusButton.setOnClickListener(this.onMayusButtonClick());
         mayusButton.setOnLongClickListener(this.onLongMayusButtonClick());
 
-        //Delete
-        ImageButton deleteButton = new ImageButton(this);
-        deleteButton.setLayoutParams(buttonParams);
-        deleteButton.setImageResource(R.drawable.delete_key);
-
 
         //Code buttons and decode buttons
         Button codeButton = (Button)findViewById(R.id.code_button);
@@ -88,10 +88,14 @@ public class MainActivity extends AppCompatActivity {
         codeButton.setOnClickListener(this.codeButtonClick());
         decodeButton.setOnClickListener(this.decodeButtonClick());
 
-        keyboardRow.addView(mayusButton);
-        keyboardRow.addView(deleteButton);
-        keyboardLayout.addView(keyboardRow);
+        //Spinner Spinner optionSpinner
+        optionSpinner = (Spinner)findViewById(R.id.option_spinner);
+        Integer[] optionArray = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+        ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(this, R.layout.option_array, optionArray);
+        optionSpinner.setAdapter(adapter);
 
+        keyboardRow.addView(mayusButton);
+        keyboardLayout.addView(keyboardRow);
 
 
 
@@ -101,6 +105,8 @@ public class MainActivity extends AppCompatActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 TextView ciphredText = (TextView) findViewById(R.id.ciphred_text);
                 ciphredText.setText(ciphred);
             }
@@ -113,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 TextView ciphredText = (TextView) findViewById(R.id.ciphred_text);
-
+                ciphredText.setText(writting);
             }
         };
     }
@@ -122,9 +128,11 @@ public class MainActivity extends AppCompatActivity {
     public View.OnClickListener charButtonClick(char charClicked){
         return new View.OnClickListener(){
         public void onClick(View v){
+            int key=Integer.parseInt(optionSpinner.getSelectedItem().toString());
+            System.out.print(key);
             configureKeyboard(false);
             writting += charClicked;
-            ciphred += (char)(charClicked + MainActivity.CAESAR_KEY);
+            ciphred += (char)(charClicked + key);
             TextView writtingText = (TextView) findViewById(R.id.writting_text);
             writtingText.setText(writting);
 
@@ -160,21 +168,8 @@ public class MainActivity extends AppCompatActivity {
             }
         };
     }
-
-    public View.OnClickListener onDeleteButtonClick(){
-        return new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                v.setVisibility(View.GONE);
-
-            }
-        };
-    }
 }
 
 /*
-boton de descifrar,
-tecla delete,
-paleta de colores,
 spinner que cambie el caesar_key
  */
