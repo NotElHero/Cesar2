@@ -69,11 +69,18 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //Add spetial buttons
+        //Mayus
         ImageButton mayusButton = new ImageButton(this);
         mayusButton.setLayoutParams(buttonParams);
         mayusButton.setImageResource(R.drawable.mayus);
         mayusButton.setOnClickListener(this.onMayusButtonClick());
         mayusButton.setOnLongClickListener(this.onLongMayusButtonClick());
+
+        //Delete
+        ImageButton deleteButton = new ImageButton(this);
+        deleteButton.setLayoutParams(buttonParams);
+        deleteButton.setImageResource(R.drawable.delete_key);
+
 
         //Code buttons and decode buttons
         Button codeButton = (Button)findViewById(R.id.code_button);
@@ -82,10 +89,14 @@ public class MainActivity extends AppCompatActivity {
         decodeButton.setOnClickListener(this.decodeButtonClick());
 
         keyboardRow.addView(mayusButton);
+        keyboardRow.addView(deleteButton);
         keyboardLayout.addView(keyboardRow);
 
 
+
+
     }
+    //code button
     public View.OnClickListener codeButtonClick(){
         return new View.OnClickListener() {
             @Override
@@ -96,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
         };
     }
 
+    //decode button
     public View.OnClickListener decodeButtonClick(){
         return new View.OnClickListener() {
             @Override
@@ -106,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
         };
     }
 
+    //keyboard buttons
     public View.OnClickListener charButtonClick(char charClicked){
         return new View.OnClickListener(){
         public void onClick(View v){
@@ -147,12 +160,21 @@ public class MainActivity extends AppCompatActivity {
             }
         };
     }
+
+    public View.OnClickListener onDeleteButtonClick(){
+        return new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                v.setVisibility(View.GONE);
+
+            }
+        };
+    }
 }
 
 /*
 boton de descifrar,
 tecla delete,
-icono,
 paleta de colores,
 spinner que cambie el caesar_key
  */
