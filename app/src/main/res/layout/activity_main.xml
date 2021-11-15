@@ -35,16 +35,16 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/code_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Button" />
+            android:text="Cifrar" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/decode_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Button" />
+            android:text="Descifrar" />
 
         <Spinner
             android:id="@+id/spinner"

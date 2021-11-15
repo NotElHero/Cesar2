@@ -15,14 +15,14 @@ import android.widget.TextView;
 
 import java.lang.reflect.Array;
 
-public class MainActivity extends AppCompatActivity implements View.OnLongClickListener, AdapterView.OnItemClickListener {
+public class MainActivity extends AppCompatActivity {
     private static final char START_MINUS = 'a';
     private static final char END_MINUS = 'z';
     private static final char START_MAYUS = 'A';
     private static final char END_MAYUS = 'Z';
     private static final int CAESAR_KEY = 2;
 
-    public int charCase = 1;
+    public int charCase = 0;
     public String writting = "";
     public String ciphred = "";
 
@@ -73,55 +73,84 @@ public class MainActivity extends AppCompatActivity implements View.OnLongClickL
         mayusButton.setLayoutParams(buttonParams);
         mayusButton.setImageResource(R.drawable.mayus);
         mayusButton.setOnClickListener(this.onMayusButtonClick());
+        mayusButton.setOnLongClickListener(this.onLongMayusButtonClick());
 
+        //Code buttons and decode buttons
+        Button codeButton = (Button)findViewById(R.id.code_button);
+        Button decodeButton = (Button)findViewById(R.id.decode_button);
+        codeButton.setOnClickListener(this.codeButtonClick());
+        decodeButton.setOnClickListener(this.decodeButtonClick());
 
         keyboardRow.addView(mayusButton);
         keyboardLayout.addView(keyboardRow);
 
+
+    }
+    public View.OnClickListener codeButtonClick(){
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextView ciphredText = (TextView) findViewById(R.id.ciphred_text);
+                ciphredText.setText(ciphred);
+            }
+        };
+    }
+
+    public View.OnClickListener decodeButtonClick(){
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextView ciphredText = (TextView) findViewById(R.id.ciphred_text);
+
+            }
+        };
     }
 
     public View.OnClickListener charButtonClick(char charClicked){
         return new View.OnClickListener(){
         public void onClick(View v){
+            configureKeyboard(false);
             writting += charClicked;
             ciphred += (char)(charClicked + MainActivity.CAESAR_KEY);
             TextView writtingText = (TextView) findViewById(R.id.writting_text);
-            TextView ciphredText = (TextView) findViewById(R.id.ciphred_text);
             writtingText.setText(writting);
-            ciphredText.setText(ciphred);
 
-            if(charCase == 1){
-                configureKeyboard(false);
-                charCase = 0;
+            if (charCase == 1){
+                configureKeyboard(true);
             }
+
         }};
     }
+
     //On short click mayus button
     public View.OnClickListener onMayusButtonClick(){
         return new View.OnClickListener(){
             public void onClick(View v){
-                configureKeyboard(true);
-                charCase++;
-                charCase %=2;
+                charCase = 1;
+                if(charCase == 1){
+                    configureKeyboard(true);
+                    charCase = 0;
+                }
             }
 
         };
     }
 
-    @Override
-    public boolean onLongClick(View v) {
-        configureKeyboard(true);
-        return false;
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+    //On long click mayus button
+    public View.OnLongClickListener onLongMayusButtonClick(){
+        return new View.OnLongClickListener(){
+            @Override
+            public boolean onLongClick(View v) {
+                configureKeyboard(true);
+                charCase = 1;
+                return true;
+            }
+        };
     }
 }
 
-/*falta onlonglistener de la tecla mayus,
-botones de cifrar y descifrar,
+/*
+boton de descifrar,
 tecla delete,
 icono,
 paleta de colores,
