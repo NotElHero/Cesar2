@@ -128,13 +128,16 @@ public class MainActivity extends AppCompatActivity {
     public View.OnClickListener charButtonClick(char charClicked){
         return new View.OnClickListener(){
         public void onClick(View v){
-            int key=Integer.parseInt(optionSpinner.getSelectedItem().toString());
-            System.out.print(key);
+
+            //System.out.print(key);
             configureKeyboard(false);
             writting += charClicked;
-            ciphred += (char)(charClicked + key);
+            int key=Integer.parseInt(optionSpinner.getSelectedItem().toString());
+            //Si se cambia el CAESAR_KEY por key, el spinner funciona, pero la codificacion falla
+            ciphred += (char)(charClicked + CAESAR_KEY);
             TextView writtingText = (TextView) findViewById(R.id.writting_text);
             writtingText.setText(writting);
+
 
             if (charCase == 1){
                 configureKeyboard(true);
